@@ -70,6 +70,7 @@ Vagrant.configure("2") do |config|
                          vb.customize ['storageattach', :id,  '--storagectl', 'SATA', '--port', dconf[:port], '--device', 0, '--type', 'hdd', '--medium', dconf[:dfile]]
                      end
                   end
+		  vb.customize ['storageattach', :id, '--storagectl', 'SATA', '--port', 5, '--device', 0, '--type', 'hdd', '--medium', './sata5.vdi']
           end
           config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
  	  box.vm.provision "shell", inline: <<-SHELL
