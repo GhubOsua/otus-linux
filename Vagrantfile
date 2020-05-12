@@ -43,6 +43,7 @@ MACHINES = {
 Vagrant.configure("2") do |config|
 
   MACHINES.each do |boxname, boxconfig|
+  
 
       config.vm.define boxname do |box|
 
@@ -73,6 +74,8 @@ Vagrant.configure("2") do |config|
 		  vb.customize ['storageattach', :id, '--storagectl', 'SATA', '--port', 5, '--device', 0, '--type', 'hdd', '--medium', './sata5.vdi']
           end
           config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
+          #config.vm.provision "shell", path: "script_raid.sh"
+
  	  box.vm.provision "shell", inline: <<-SHELL
 	      mkdir -p ~root/.ssh
               cp ~vagrant/.ssh/auth* ~root/.ssh
