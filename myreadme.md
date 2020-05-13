@@ -156,8 +156,13 @@ sdf         8:80   0  250M  0 disk
 2. Создание ФС, т.монитирование и монтирование ФС:
 
 /dev/md0: PTTYPE="gpt" 
+
 /dev/md0p1: UUID="7f011d6a-0fba-4f3e-ab4e-8d5f6d7fea04" TYPE="ext4" PARTLABEL="primary" PARTUUID="33480269-9330-4ba3-ac27-639a927b8e21" 
+
 /dev/md0p2: UUID="f67a1ecb-429b-4f86-860a-60a25eb8169b" TYPE="ext4" PARTLABEL="primary" PARTUUID="a441f933-2613-4d57-b922-f7ccd6217142" 
+
 /dev/md0p3: UUID="0ff420e2-1c15-4120-8f14-cd49e0525829" TYPE="ext4" PARTLABEL="primary" PARTUUID="4e5c2f52-338a-4466-a264-fe001e9f312c" 
+
 /dev/md0p4: UUID="10c2b9ce-e11a-4da8-8bcf-c5312af6b4ec" TYPE="ext4" PARTLABEL="primary" PARTUUID="58730494-389b-4fc6-9080-6bd523f936a7" 
+
 /dev/md0p5: UUID="95e09e40-5b31-4399-be78-1e0f17053227" TYPE="ext4" PARTLABEL="primary" PARTUUID="b18b0729-8b6b-4f39-a7c4-69d009768c09"
