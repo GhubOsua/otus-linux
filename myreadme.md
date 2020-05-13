@@ -9,8 +9,10 @@
 
 Вывод команд для raid:
 1. [vagrant@otuslinux ~]$ sudo mdadm -D /dev/md*
+
 mdadm: /dev/md does not appear to be an md device
 /dev/md0:
+
            Version : 1.2
      Creation Time : Tue May 12 11:16:32 2020
         Raid Level : raid5
@@ -44,6 +46,7 @@ Consistency Policy : resync
        5       8       80        4      active sync   /dev/sdf
 
 2. [vagrant@otuslinux ~]$ cat /proc/mdstat 
+
 Personalities : [raid6] [raid5] [raid4] 
 md0 : active raid5 sdd[2] sdf[5] sdb[0] sdc[1] sde[3]
       1015808 blocks super 1.2 level 5, 512k chunk, algorithm 2 [5/5] [UUUUU]
@@ -51,6 +54,7 @@ md0 : active raid5 sdd[2] sdf[5] sdb[0] sdc[1] sde[3]
 unused devices: <none>
 
 3. sudo blkid
+
 /dev/sda1: UUID="8ac075e3-1124-4bb6-bef7-a6811bf8b870" TYPE="xfs" 
 /dev/sdb: UUID="0a121be3-015f-9c2b-5778-d99865cb85d0" UUID_SUB="8bb51983-d0b3-e0f2-74a5-09671d93e9ee" LABEL="otuslinux:0" TYPE="linux_raid_member" 
 /dev/sdc: UUID="0a121be3-015f-9c2b-5778-d99865cb85d0" UUID_SUB="70e9a4a6-23e0-9a31-e6ae-2ff674e2cd6a" LABEL="otuslinux:0" TYPE="linux_raid_member" 
@@ -61,12 +65,16 @@ unused devices: <none>
 Поломка RAID и вывод команд:
 1. Указываем что у нас диск sdf сломан
 [vagrant@otuslinux ~]$ sudo mdadm /dev/md0 -f /dev/sdf 
+
 mdadm: set /dev/sdf faulty in /dev/md0
 2. Смотрим статус raid
+
 md0 : active raid5 sdd[2] sdf[5](F) sdb[0] sdc[1] sde[3]
       1015808 blocks super 1.2 level 5, 512k chunk, algorithm 2 [5/4] [UUUU_]
 3. Удаляем сломанный диск из массива
+
 vagrant@otuslinux ~]$ sudo mdadm /dev/md0 --remove /dev/sdf
+
 mdadm: hot removed /dev/sdf from /dev/md0
 [vagrant@otuslinux ~]$ cat /proc/mdstat 
 Personalities : [raid6] [raid5] [raid4] 
@@ -74,19 +82,26 @@ md0 : active raid5 sdd[2] sdb[0] sdc[1] sde[3]
       1015808 blocks super 1.2 level 5, 512k chunk, algorithm 2 [5/4] [UUUU_]
       
 unused devices: <none>
+
 4. Теперь, мы добавляем работающий диск в raid
+
 [vagrant@otuslinux ~]$ sudo mdadm /dev/md0 --add /dev/sdf
+
 mdadm: added /dev/sdf
+
 5. Вывод сборки raid
 [vagrant@otuslinux ~]$ cat /proc/mdstat 
+
 Personalities : [raid6] [raid5] [raid4] 
 md0 : active raid5 sdf[5] sdd[2] sdb[0] sdc[1] sde[3]
       1015808 blocks super 1.2 level 5, 512k chunk, algorithm 2 [5/4] [UUUU_]
       [=================>...]  recovery = 85.7% (218112/253952) finish=0.0min speed=21811K/sec
       
 unused devices: <none>
+
 6. Вывод собранного диска
 [vagrant@otuslinux ~]$ cat /proc/mdstat 
+
 Personalities : [raid6] [raid5] [raid4] 
 md0 : active raid5 sdf[5] sdd[2] sdb[0] sdc[1] sde[3]
       1015808 blocks super 1.2 level 5, 512k chunk, algorithm 2 [5/4] [UUUU_]
@@ -96,7 +111,7 @@ unused devices: <none>
 
 Создание GPT, 5-ти разделов и ФС:
 
-1.Раздел GPT и 5 партиций
+1. Раздел GPT и 5 партиций
 [vagrant@otuslinux vagrant]$ lsblk
 
 NAME      MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINT
@@ -139,6 +154,7 @@ sdf         8:80   0  250M  0 disk
   └─md0p5 259:0    0  196M  0 md   
 
 2. Создание ФС, т.монитирование и монтирование ФС:
+
 /dev/md0: PTTYPE="gpt" 
 /dev/md0p1: UUID="7f011d6a-0fba-4f3e-ab4e-8d5f6d7fea04" TYPE="ext4" PARTLABEL="primary" PARTUUID="33480269-9330-4ba3-ac27-639a927b8e21" 
 /dev/md0p2: UUID="f67a1ecb-429b-4f86-860a-60a25eb8169b" TYPE="ext4" PARTLABEL="primary" PARTUUID="a441f933-2613-4d57-b922-f7ccd6217142" 
